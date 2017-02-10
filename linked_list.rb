@@ -7,9 +7,15 @@ class LinkedList
 	end
 
 	def prepend(data)
+		@head = Node.new(data, @head)
 	end
 
 	def size
+		count = 0
+		self.each do |i|
+			count += 1
+		end
+		return count
 	end
 
 	def head
@@ -53,13 +59,6 @@ class LinkedList
 		end
 		yield(node.data) 
 	end
-
-	# def each(node_from = @head)
-	# 	yield node_from.data
-	# 	if node_from.next_node
-	# 		self.each(node_from.next_node)
-	# 	end
-	# end
 end
 
 class Node
@@ -77,6 +76,6 @@ puts l.to_s
 #puts l.to_s
 # l.append("A")
 # puts l.to_s
-# l.prepend("B")
-# puts l.to_s
-#puts l.size
+l.prepend("B")
+puts l.to_s
+puts l.size
