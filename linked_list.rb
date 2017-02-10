@@ -23,14 +23,17 @@ class LinkedList
 	end
 
 	def tail
+		return self.at(self.size-1)
 	end
 
 	def at(_index)
-		# node = @head
-		# (_index - 1).times do
-		# 	node = node.next_node
-		# end
-		# return node
+		if @head
+			node = @head
+			(_index).times do
+				node = node.next_node
+			end
+			return node
+		end
 	end
 
 	def pop
@@ -73,10 +76,12 @@ end
 
 
 l = LinkedList.new()
-puts l.to_s
 # l.append("A")
 # puts l.to_s
+l.prepend("C")
 l.prepend("B")
+l.prepend("A")
 puts l.to_s
 puts l.size
+puts l.at(1).data
 puts l.tail.data
