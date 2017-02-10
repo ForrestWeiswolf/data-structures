@@ -1,6 +1,6 @@
 class LinkedList
-	def initialize
-		@head = Node.new()
+	def initialize()
+		@head = nil
 	end
 
 	def append(data)
@@ -52,12 +52,14 @@ class LinkedList
 	end
 
 	def each
-		node = @head
-		while node.next_node
-			yield(node.data)
-			node = node.next_node
+		if @head
+			node = @head
+			while node.next_node
+				yield(node.data)
+				node = node.next_node
+			end
+			yield(node.data) 
 		end
-		yield(node.data) 
 	end
 end
 
@@ -72,10 +74,9 @@ end
 
 l = LinkedList.new()
 puts l.to_s
-#l.append("A")
-#puts l.to_s
 # l.append("A")
 # puts l.to_s
 l.prepend("B")
 puts l.to_s
 puts l.size
+puts l.tail.data
