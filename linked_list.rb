@@ -4,6 +4,7 @@ class LinkedList
 	end
 
 	def append(data)
+		self.tail.next_node = Node.new(data)
 	end
 
 	def prepend(data)
@@ -23,11 +24,13 @@ class LinkedList
 	end
 
 	def tail
-		return self.at(self.size-1)
+		return self.at(-1)
 	end
 
 	def at(_index)
 		if @head
+			_index = self.size + _index if _index < 0
+
 			node = @head
 			(_index).times do
 				node = node.next_node
@@ -37,6 +40,9 @@ class LinkedList
 	end
 
 	def pop
+		tail = self.tail
+		self.at(-2).next_node = nil
+		return tail
 	end
 
 	def contains?(data)
@@ -76,12 +82,14 @@ end
 
 
 l = LinkedList.new()
-# l.append("A")
-# puts l.to_s
-l.prepend("C")
 l.prepend("B")
 l.prepend("A")
 puts l.to_s
-puts l.size
-puts l.at(1).data
+l.append("C")
+puts l.to_s
+puts "Size = #{l.size}"
+puts "At 1: #{l.at(1).data}"
+puts l.at(-2).data
 puts l.tail.data
+l.pop
+puts l.to_s
