@@ -65,6 +65,20 @@ class LinkedList
 		return str
 	end
 
+	def insert_at(_index, data)
+		if _index == 0
+			self.prepend(data)
+		else
+			new_node = Node.new(data, self.at(_index))
+			self.at(_index-1).next_node = new_node
+		end
+	end
+
+	def remove_at(_index)
+		node_after = self.at(_index+1)
+		self.at(_index-1).next_node = node_after
+	end
+
 	def each_with_index
 		if @head
 			_index = 0
@@ -108,6 +122,12 @@ puts "Contains 'A': #{l.contains?('A')}"
 puts "Contains 'R': #{l.contains?('R')}"
 puts "'B' at: #{l.find('B')}"
 puts "'S' at: #{l.find('S')}"
+puts "Inserting 'T' at index 2:"
+l.insert_at(2, 'T')
+puts l.to_s
+puts "And removing it:"
+l.remove_at(2)
+puts l.to_s
 l.pop
 puts "Pop!"
 puts l.to_s
