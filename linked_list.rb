@@ -46,9 +46,14 @@ class LinkedList
 	end
 
 	def contains?(data)
+		self.find(data) ? true : false
 	end
 
 	def find(data)
+		self.each_with_index do |node_data, _index|
+			return _index if node_data == data
+		end
+		return false
 	end
 
 	def to_s
@@ -60,14 +65,22 @@ class LinkedList
 		return str
 	end
 
-	def each
+	def each_with_index
 		if @head
+			_index = 0
 			node = @head
 			while node.next_node
-				yield(node.data)
+				yield(node.data, _index)
+				_index += 1
 				node = node.next_node
 			end
-			yield(node.data) 
+			yield(node.data, _index) 
+		end
+	end
+
+	def each
+		self.each_with_index do |node_data, index|
+			yield(node_data)
 		end
 	end
 end
@@ -89,7 +102,12 @@ l.append("C")
 puts l.to_s
 puts "Size = #{l.size}"
 puts "At 1: #{l.at(1).data}"
-puts l.at(-2).data
-puts l.tail.data
+puts "At -2: #{l.at(-2).data}"
+puts "Tail: #{l.tail.data}"
+puts "Contains 'A': #{l.contains?('A')}"
+puts "Contains 'R': #{l.contains?('R')}"
+puts "'B' at: #{l.find('B')}"
+puts "'S' at: #{l.find('S')}"
 l.pop
+puts "Pop!"
 puts l.to_s
