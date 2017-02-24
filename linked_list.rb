@@ -80,16 +80,15 @@ class LinkedList
 	end
 
 	def each_with_index
-		if @head
-			_index = 0
-			node = @head
-			while node.next_node
+		#if @head
+			_index, node = 0, @head
+			while node#.next_node
 				yield(node.data, _index)
 				_index += 1
 				node = node.next_node
 			end
-			yield(node.data, _index) 
-		end
+			#yield(node.data, _index) 
+		#end
 	end
 
 	def each
@@ -107,27 +106,42 @@ class Node
 	end
 end
 
+def tests
+	l = LinkedList.new()
+	l.prepend("B")
+	l.prepend("A")
+	puts l.to_s
+	l.append("C")
+	puts l.to_s
+	puts "Size = #{l.size}"
+	puts "At 1: #{l.at(1).data}"
+	puts "At -2: #{l.at(-2).data}"
+	puts "Tail: #{l.tail.data}"
+	puts "Contains 'A': #{l.contains?('A')}"
+	puts "Contains 'R': #{l.contains?('R')}"
+	puts "'B' at: #{l.find('B')}"
+	puts "'S' at: #{l.find('S')}"
+	puts "Inserting 'T' at index 2:"
+	l.insert_at(2, 'T')
+	puts l.to_s
+	puts "And removing it:"
+	l.remove_at(2)
+	puts l.to_s
+	l.pop
+	puts "Pop!"
+	puts l.to_s
+	puts LinkedList.new().to_s
+end
 
+require 'benchmark'
 l = LinkedList.new()
 l.prepend("B")
 l.prepend("A")
-puts l.to_s
-l.append("C")
-puts l.to_s
-puts "Size = #{l.size}"
-puts "At 1: #{l.at(1).data}"
-puts "At -2: #{l.at(-2).data}"
-puts "Tail: #{l.tail.data}"
-puts "Contains 'A': #{l.contains?('A')}"
-puts "Contains 'R': #{l.contains?('R')}"
-puts "'B' at: #{l.find('B')}"
-puts "'S' at: #{l.find('S')}"
-puts "Inserting 'T' at index 2:"
-l.insert_at(2, 'T')
-puts l.to_s
-puts "And removing it:"
-l.remove_at(2)
-puts l.to_s
-l.pop
-puts "Pop!"
-puts l.to_s
+
+b = Benchmark.measure do
+	for i in 1..50000 do 
+		l.to_s
+	end
+end
+
+puts b
