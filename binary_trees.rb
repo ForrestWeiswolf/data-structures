@@ -19,7 +19,7 @@ class Node
 			end
 		else
 			if @right == nil
-				@left = Node.new(item, self)
+				@right = Node.new(item, self)
 			else
 				@right.add(item)
 			end
