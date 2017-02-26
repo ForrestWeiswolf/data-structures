@@ -56,6 +56,22 @@ class Node
 		end
 		return result
 	end
+
+	def depth_first_search(item)
+		#not DRY
+		stack = []
+		result = nil
+		if @val = item
+			result = self
+		else
+			queue = [@left] + queue if @left
+			queue += [@right] + queue if @right
+			queue.each do |node|
+				result = node.breadth_first_search(item)
+			end
+		end
+		return result
+	end
 end
 
 def make_tree(arr)
@@ -70,3 +86,4 @@ end
 t = make_tree([11, 1, 1, 3, 2, 2, 0, -12, -15, -9])
 puts t.show_tree
 puts t.breadth_first_search(-9)
+puts t.depth_first_search(-15)
