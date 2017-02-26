@@ -7,6 +7,7 @@ class Node
 		@parent = parent
 	end
 
+	#adds an item in an appropriate place on the tree
 	def add(item)
 		#there must be a better way to do this
 		if @val == nil
@@ -72,6 +73,18 @@ class Node
 		end
 		return result
 	end
+
+	def dfs_rec(item)
+		result = false
+		if @val = item
+			return self
+		else
+			[@left, @right].each do |side|
+				found = dfs_rec(side) if side
+				return found if found
+			end
+		end
+	end
 end
 
 def make_tree(arr)
@@ -87,3 +100,4 @@ t = make_tree([11, 1, 1, 3, 2, 2, 0, -12, -15, -9])
 puts t.show_tree
 puts t.breadth_first_search(-9)
 puts t.depth_first_search(-15)
+puts t.dfs_rec(3)
