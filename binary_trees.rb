@@ -28,7 +28,9 @@ class Node
 	end
 
 	def to_s
-		"Node with #{@val}"
+		l = @left.val if @left
+		r = @right.val if @right
+		"Node with #{@val} (descendants #{l}, #{r})"
 	end
 
 	def show_tree
@@ -45,28 +47,30 @@ class Node
 
 	def breadth_first_search(item)
 		queue = []
-		result = nil
-		if @val = item
-			result = self
+		#puts "Checking #{self}"
+		if @val == item
+			return self
 		else
-			queue += @left if @left
-			queue += @right if @right
+			queue << @left if @left
+			#puts "Enqueuing #{@left}" if @left
+			queue << @right if @right
+			#puts "Enqueuing #{@right}" if @right
 			queue.each do |node|
-				result = node.breadth_first_search(item)
+				return node.breadth_first_search(item)
 			end
 		end
-		return result
+		return nil
 	end
 
 	def depth_first_search(item)
 		#not DRY
 		stack = []
 		result = nil
-		if @val = item
+		if @val == item
 			result = self
 		else
 			queue = [@left] + queue if @left
-			queue += [@right] + queue if @right
+			queue = [@right] + queue if @right
 			queue.each do |node|
 				result = node.breadth_first_search(item)
 			end
@@ -76,7 +80,7 @@ class Node
 
 	def dfs_rec(item)
 		result = false
-		if @val = item
+		if @val == item
 			return self
 		else
 			[@left, @right].each do |side|
@@ -96,8 +100,13 @@ def make_tree(arr)
 end
 
 
-t = make_tree([11, 1, 1, 3, 2, 2, 0, -12, -15, -9])
+t = make_tree([11, 1, 12, 4, 3, 7])
 puts t.show_tree
-puts t.breadth_first_search(-9)
-puts t.depth_first_search(-15)
-puts t.dfs_rec(3)
+puts "Found #{t.breadth_first_search(0)}"
+puts "Found #{t.breadth_first_search(3)}"
+puts "Found #{t.breadth_first_search(11)}"
+
+
+
+#puts t.depth_first_search(-15)
+#puts t.dfs_rec(3)
