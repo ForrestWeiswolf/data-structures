@@ -46,36 +46,46 @@ class Node
 	end
 
 	def breadth_first_search(item)
-		queue = []
-		#puts "Checking #{self}"
-		if @val == item
-			return self
-		else
-			queue << @left if @left
-			#puts "Enqueuing #{@left}" if @left
-			queue << @right if @right
-			#puts "Enqueuing #{@right}" if @right
-			queue.each do |node|
-				return node.breadth_first_search(item)
+		queue = [self]
+		result = nil
+
+		queue.each do |node|
+			#puts "Checking #{node}"
+
+			if node.val == item
+				result = node
+				break
 			end
+			if node.left
+				queue << node.left
+				#puts "Enqueuing #{node.left}"
+			end
+			if node.right
+				queue << node.right 
+				#puts "Enqueuing #{node.right}"
+			end 
 		end
-		return nil
+
+		return result 
 	end
 
 	def depth_first_search(item)
 		#not DRY
 		stack = []
-		result = nil
+		puts "Checking #{self}"
 		if @val == item
-			result = self
+			return self
 		else
-			queue = [@left] + queue if @left
-			queue = [@right] + queue if @right
-			queue.each do |node|
-				result = node.breadth_first_search(item)
+			puts "Stacking #{@left}" if @left
+			stack = [@left] + stack if @left
+			puts "Stacking #{@right}" if @right
+			stack = [@right] + stack if @right
+			stack.each do |node|
+				puts "#{node} from stack..."
+				return node.breadth_first_search(item)
 			end
 		end
-		return result
+		return nil
 	end
 
 	def dfs_rec(item)
@@ -105,6 +115,9 @@ puts t.show_tree
 puts "Found #{t.breadth_first_search(0)}"
 puts "Found #{t.breadth_first_search(3)}"
 puts "Found #{t.breadth_first_search(11)}"
+#puts "Found #{t.depth_first_search(0)}"
+#puts "Found #{t.depth_first_search(3)}"
+#puts "Found #{t.depth_first_search(11)}"
 
 
 
