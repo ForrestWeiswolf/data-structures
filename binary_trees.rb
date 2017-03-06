@@ -71,21 +71,31 @@ class Node
 
 	def depth_first_search(item)
 		#not DRY
-		stack = []
-		puts "Checking #{self}"
-		if @val == item
-			return self
-		else
-			puts "Stacking #{@left}" if @left
-			stack = [@left] + stack if @left
-			puts "Stacking #{@right}" if @right
-			stack = [@right] + stack if @right
-			stack.each do |node|
-				puts "#{node} from stack..."
-				return node.breadth_first_search(item)
+		stack = [self]
+		result = nil
+
+		while stack[-1] do 
+			node = stack[-1]
+			stack.pop #is this right method?
+			#puts "Checking #{node}"
+
+			if node.val == item
+				result = node
+				break
 			end
+			if node.left
+				stack += [node.left]
+				puts "Stacking #{node.left}"
+			end
+			if node.right
+				stack += [node.right]
+				puts "Stacking #{node.right}"
+			end 
+
+			#puts "stack = #{stack[0]}..#{stack[-1]}"
 		end
-		return nil
+
+		return result 
 	end
 
 	def dfs_rec(item)
@@ -112,12 +122,12 @@ end
 
 t = make_tree([11, 1, 12, 4, 3, 7])
 puts t.show_tree
-puts "Found #{t.breadth_first_search(0)}"
-puts "Found #{t.breadth_first_search(3)}"
-puts "Found #{t.breadth_first_search(11)}"
-#puts "Found #{t.depth_first_search(0)}"
-#puts "Found #{t.depth_first_search(3)}"
-#puts "Found #{t.depth_first_search(11)}"
+#puts "Found #{t.breadth_first_search(0)}"
+# puts "Found #{t.breadth_first_search(3)}"
+# puts "Found #{t.breadth_first_search(11)}"
+puts "Found #{t.depth_first_search(0)}"
+puts "Found #{t.depth_first_search(3)}"
+puts "Found #{t.depth_first_search(11)}"
 
 
 
