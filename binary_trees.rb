@@ -27,12 +27,14 @@ class Node
 		end
 	end
 
+	#creates a string with the node's value and the values of its direct descendants
 	def to_s
 		l = @left.val if @left
 		r = @right.val if @right
 		"Node with #{@val} (descendants #{l}, #{r})"
 	end
 
+	#creates a string showing the tree in the form root (left_subtree) root (right_subtree)
 	def show_tree
 		result = "#{@val}"
 		[@left, @right].each do |subtree|
@@ -45,6 +47,8 @@ class Node
 		return result
 	end
 
+	#returns a descendant of this node containing the passed item as it's val, 
+	#or nil if there isn't one, using breadth first search
 	def breadth_first_search(item)
 		queue = [self]
 		result = nil
@@ -69,6 +73,8 @@ class Node
 		return result 
 	end
 
+	#returns a descendant of this node containing the passed item as it's val, 
+	#or nil if there isn't one, using depth first search
 	def depth_first_search(item)
 		#not DRY
 		stack = [self]
@@ -96,6 +102,8 @@ class Node
 		return result 
 	end
 
+	#returns a descendant of this node containing the passed item as it's val, 
+	#or nil if there isn't one, using a recursive depth first search algorithm
 	def dfs_rec(item)
 		#puts "checking #{self}"
 		if @val == item
@@ -109,6 +117,7 @@ class Node
 	end
 end
 
+#converts an array to a binary tree
 def make_tree(arr)
 	root = Node.new(nil, nil)
 	arr.each do |item|
