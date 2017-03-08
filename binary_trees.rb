@@ -7,26 +7,6 @@ class Node
 		@parent = parent
 	end
 
-	#adds an item in an appropriate place on the tree
-	def add(item)
-		#there must be a better way to do this
-		if @val == nil
-			@val = item
-		elsif @val >= item
-			if @left == nil
-				@left = Node.new(item, self)
-			else
-				@left.add(item)
-			end
-		else
-			if @right == nil
-				@right = Node.new(item, self)
-			else
-				@right.add(item)
-			end
-		end
-	end
-
 	#creates a string with the node's value and the values of its direct descendants
 	def to_s
 		l = @left.val if @left
@@ -91,11 +71,11 @@ class Node
 			end
 			if node.left
 				stack += [node.left]
-				puts "Stacking #{node.left}"
+				#puts "Stacking #{node.left}"
 			end
 			if node.right
 				stack += [node.right]
-				puts "Stacking #{node.right}"
+				#puts "Stacking #{node.right}"
 			end 
 		end
 
@@ -117,24 +97,49 @@ class Node
 	end
 end
 
-#converts an array to a binary tree
-def make_tree(arr)
-	root = Node.new(nil, nil)
-	arr.each do |item|
-		root.add(item)			
+class BinaryTree < Node
+	#converts an array to a binary tree
+	def initialize(arr=[])
+		parent
+		arr.each do |item|
+			self.add(item)			
+		end
 	end
-	return root
+	
+	#adds an item in an appropriate place on the tree
+	def add(item)
+		#there must be a better way to do this
+		if @val == nil
+			@val = item
+		elsif @val >= item
+			if @left == nil
+				@left = BinaryTree.new()
+				@left.val = item
+				@left.parent = self
+			else
+				@left.add(item)
+			end
+		else
+			if @right == nil
+				@right = BinaryTree.new()
+				@right.val = item
+				@right.parent = self
+			else
+				@right.add(item)
+			end
+		end
+	end
 end
 
 
-t = make_tree([11, 1, 12, 4, 3, 2, 7])
+t = BinaryTree.new([11, 1, 12, 4, 3, 2, 7])
 puts t.show_tree
-#puts "Found #{t.breadth_first_search(0)}"
-# puts "Found #{t.breadth_first_search(3)}"
-# puts "Found #{t.breadth_first_search(11)}"
-# puts "Found #{t.depth_first_search(0)}"
-# puts "Found #{t.depth_first_search(3)}"
-# puts "Found #{t.depth_first_search(11)}"
+puts "Found #{t.breadth_first_search(0)}"
+puts "Found #{t.breadth_first_search(3)}"
+puts "Found #{t.breadth_first_search(11)}"
+puts "Found #{t.depth_first_search(0)}"
+puts "Found #{t.depth_first_search(3)}"
+puts "Found #{t.depth_first_search(11)}"
 puts "Found #{t.dfs_rec(0)}"
 puts "Found #{t.dfs_rec(3)}"
 puts "Found #{t.dfs_rec(11)}"
