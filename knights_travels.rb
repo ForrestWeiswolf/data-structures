@@ -1,6 +1,7 @@
 def knight_moves(from, to)
 end
 
+#lists the positions a knight can move to from a given square
 def next_positions(pos)
 	result = []
 	moves = [[1, 2], [-1, 2], [1, -2], [-1, -2], [2, 1], [2, -1], [-2, 1], [-2, -1]]
