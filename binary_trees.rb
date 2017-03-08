@@ -97,7 +97,7 @@ class Node
 	end
 end
 
-class BinaryTree < Node
+class BinarySearchTree < Node
 	#converts an array to a binary tree
 	def initialize(arr=[])
 		parent
@@ -108,12 +108,12 @@ class BinaryTree < Node
 	
 	#adds an item in an appropriate place on the tree
 	def add(item)
-		#there must be a better way to do this
+		#refactor this and binary_search to use some kind of binary search by condition method?
 		if @val == nil
 			@val = item
 		elsif @val >= item
 			if @left == nil
-				@left = BinaryTree.new()
+				@left = BinarySearchTree.new()
 				@left.val = item
 				@left.parent = self
 			else
@@ -121,7 +121,7 @@ class BinaryTree < Node
 			end
 		else
 			if @right == nil
-				@right = BinaryTree.new()
+				@right = BinarySearchTree.new()
 				@right.val = item
 				@right.parent = self
 			else
@@ -129,17 +129,35 @@ class BinaryTree < Node
 			end
 		end
 	end
+
+	def binary_search(item)
+		#puts "Checking #{self}"
+		if @val == item
+			return self
+		elsif @val >= item && @left
+			#puts "going left"
+			return @left.binary_search(item)
+		elsif @val <= item && @right
+			#puts "going right"
+			return @right.binary_search(item)
+		else
+			return nil
+		end
+	end	
 end
 
 
-t = BinaryTree.new([11, 1, 12, 4, 3, 2, 7])
+t = BinarySearchTree.new([11, 1, 12, 4, 3, 2, 7])
 puts t.show_tree
-puts "Found #{t.breadth_first_search(0)}"
-puts "Found #{t.breadth_first_search(3)}"
-puts "Found #{t.breadth_first_search(11)}"
-puts "Found #{t.depth_first_search(0)}"
-puts "Found #{t.depth_first_search(3)}"
-puts "Found #{t.depth_first_search(11)}"
-puts "Found #{t.dfs_rec(0)}"
-puts "Found #{t.dfs_rec(3)}"
-puts "Found #{t.dfs_rec(11)}"
+# puts "Found #{t.breadth_first_search(0)}"
+# puts "Found #{t.breadth_first_search(3)}"
+# puts "Found #{t.breadth_first_search(12)}"
+# puts "Found #{t.depth_first_search(0)}"
+# puts "Found #{t.depth_first_search(3)}"
+# puts "Found #{t.depth_first_search(12)}"
+# puts "Found #{t.dfs_rec(0)}"
+# puts "Found #{t.dfs_rec(3)}"
+# puts "Found #{t.dfs_rec(12)}"
+# puts "Found #{t.binary_search(0)}"
+# puts "Found #{t.binary_search(3)}"
+# puts "Found #{t.binary_search(12)}"
