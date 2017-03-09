@@ -1,5 +1,5 @@
 class Tree
-	:attr_accessor :val, :descendants
+	attr_accessor :val, :descendants
 	def initialize(val = nil, descendants = [])
 		@val = val
 		@descendants = descendants
@@ -7,6 +7,18 @@ class Tree
 
 	def to_s
 		"Node with #{@val} (descendants #{@descendants.to_s})"
+	end
+
+	def each_leaf
+		unless @descendants.size > 0
+			yield(self)
+		else
+			@descendants.each do |descendant|
+				descendant.each_leaf do |l|
+					yield(l)
+				end
+			end
+		end
 	end
 end
 
@@ -25,4 +37,9 @@ def next_positions(pos)
 		end
 	end
 	return result
+end
+
+t = Tree.new(1, [Tree.new(3, [Tree.new(1), Tree.new(5)]), Tree.new(12)])
+t.each_leaf do |l|
+	puts l
 end
