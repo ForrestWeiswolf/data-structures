@@ -4,9 +4,14 @@ class Tree
 		@val = val
 		@descendants = descendants
 	end
+
+	def to_s
+		"Node with #{@val} (descendants #{@descendants.to_s})"
+	end
 end
 
 def knight_moves(from, to)
+	paths = Tree.new(from)
 end
 
 #lists the positions a knight can move to from a given square
