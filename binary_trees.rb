@@ -130,6 +130,8 @@ class BinarySearchTree < Node
 		end
 	end
 
+	#returns a descendant of this tree containing the passed item as it's val, 
+	#or nil if there isn't one, using a binary search algorithm
 	def binary_search(item)
 		#puts "Checking #{self}"
 		if @val == item

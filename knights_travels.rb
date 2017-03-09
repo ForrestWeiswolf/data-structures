@@ -1,3 +1,11 @@
+class Tree
+	:attr_accessor :val, :descendants
+	def initialize(val = nil, descendants = [])
+		@val = val
+		@descendants = descendants
+	end
+end
+
 def knight_moves(from, to)
 end
 
@@ -13,5 +21,3 @@ def next_positions(pos)
 	end
 	return result
 end
-
-next_positions([0, 0]).each { |e|  puts e.to_s}
