@@ -1,4 +1,4 @@
-class Tree
+class TreeNode
 	attr_accessor :val, :descendants
 	def initialize(val = nil, descendants = [])
 		@val = val
@@ -10,11 +10,12 @@ class Tree
 	end
 
 	def each_leaf
+		#turned out to not need this
 		unless @descendants.size > 0
 			yield(self)
 		else
 			@descendants.each do |descendant|
-				descendant.each_leaf do |l|
+				descendants.each_leaf do |l|
 					yield(l)
 				end
 			end
@@ -23,7 +24,25 @@ class Tree
 end
 
 def knight_moves(from, to)
-	paths = Tree.new(from)
+	result = nil
+	paths = TreeNode.new(from)
+	queue = [paths]
+
+	queue.each do |node|
+		puts "Checking #{node}"
+		if node.val == to
+			result = node
+			break
+		else
+			next_positions(node.val).each do |position|
+				descendant = TreeNode.new(position)
+				node.descendants << descendant
+				queue << descendant
+			end
+		end
+	end
+
+	return result
 end
 
 #lists the positions a knight can move to from a given square
@@ -39,7 +58,4 @@ def next_positions(pos)
 	return result
 end
 
-t = Tree.new(1, [Tree.new(3, [Tree.new(1), Tree.new(5)]), Tree.new(12)])
-t.each_leaf do |l|
-	puts l
-end
+puts knight_moves([3,3],[4,3])
