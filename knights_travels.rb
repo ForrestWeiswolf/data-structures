@@ -1,12 +1,14 @@
 class TreeNode
-	attr_accessor :val, :descendants
-	def initialize(val = nil, descendants = [])
+	attr_accessor :val, :parent, :descendants
+	def initialize(val = nil, parent = nil, descendants = [])
 		@val = val
+		@parent = parent
 		@descendants = descendants
 	end
 
 	def to_s
-		"Node with #{@val} (descendants #{@descendants.to_s})"
+		parent_val = @parent.val if @parent
+		"Node with #{@val} (descendants #{@descendants.to_s}, parent #{parent_val})"
 	end
 
 	def each_leaf
@@ -21,6 +23,13 @@ class TreeNode
 			end
 		end
 	end
+
+	#returns an array containing the ancestry of self, starting with the root of the tree and ending with self
+	def path_to
+		result = [self]
+		result = @parent.path_to + result if @parent
+		return result
+	end
 end
 
 def knight_moves(from, to)
@@ -29,20 +38,21 @@ def knight_moves(from, to)
 	queue = [paths]
 
 	queue.each do |node|
-		puts "Checking #{node}"
+		#puts "Checking #{node}"
 		if node.val == to
 			result = node
 			break
 		else
 			next_positions(node.val).each do |position|
-				descendant = TreeNode.new(position)
+				descendant = TreeNode.new(position, node)
 				node.descendants << descendant
 				queue << descendant
 			end
 		end
 	end
 
-	return result
+	result = result.path_to
+	return result.map { |node| node.val}
 end
 
 #lists the positions a knight can move to from a given square
@@ -58,4 +68,4 @@ def next_positions(pos)
 	return result
 end
 
-puts knight_moves([3,3],[4,3])
+knight_moves([3,3],[4,3]).each{ |move| puts move.to_s}
